@@ -18,7 +18,7 @@ from src.mailer import send_email
 from tensorflow.keras.utils import to_categorical
 
 def get_data():
-    df = pd.read_csv("processed_train_data_activity.csv")
+    df = pd.read_csv("processed_train_data_trial_2.csv")
     X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z, class_labels = matrix_fourier_adjust(df)
     
     class_labels = to_categorical(class_labels, num_classes=6)
@@ -92,7 +92,7 @@ def objective(trial):
 
     return val_accuracy
 
-def save_best_hyperparameters(study, filename="best_hyperparameters_activity.json"):
+def save_best_hyperparameters(study, filename="best_hyperparameters_trial_2.json"):
     best_params = study.best_params
 
     with open(filename, "w") as f:
@@ -100,7 +100,7 @@ def save_best_hyperparameters(study, filename="best_hyperparameters_activity.jso
 
     print(f"Best hyperparameters saved to {filename}")
 
-def save_losses(loss, val_loss, filename="losses_activity.json"):
+def save_losses(loss, val_loss, filename="losses_trial_2.json"):
     losses = {
         "loss": loss, 
         "val_loss": val_loss
@@ -124,13 +124,13 @@ end_time = time.time()
 total_time = end_time - start_time
 print(f"Total time: {total_time:.2f} seconds")
 
-with open("study_activity.pkl", "wb") as f:
+with open("study_trial_2.pkl", "wb") as f:
     pickle.dump(study, f)
 
-with open("log_time_activity.txt", "w") as f:
+with open("log_time_trial_2.txt", "w") as f:
     f.write(f"Total time: {total_time:.2f} seconds")
 
 save_best_hyperparameters(study)
 print("Best hyperparameters:", study.best_params)
 
-send_email("hyperparameter activity optimization masters")
+send_email("hyperparameter activity trial 2 optimization masters")

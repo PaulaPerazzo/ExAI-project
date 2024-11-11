@@ -6,3 +6,4 @@ data
 .venv
 
 processed_train_data_activity.csv
+processed_train_data_trial_2.csv
