@@ -21,7 +21,7 @@ def get_data():
     df = pd.read_csv("processed_train_data_trial_2.csv")
     X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z, class_labels = matrix_fourier_adjust(df)
     
-    class_labels = to_categorical(class_labels, num_classes=6)
+    class_labels = to_categorical(class_labels, num_classes=5)
 
     return X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z, class_labels
 
@@ -33,7 +33,7 @@ def create_model(trial):
     learning_rate = trial.suggest_loguniform("learning_rate", 1e-4, 1e-2)
     
     input_shape = (256, 1)
-    num_classes = 6 # for activity classification
+    num_classes = 5 # for activity classification
     
     def create_branch_with_params(input_shape, num_filters1, num_filters2):
         input_layer = Input(shape=input_shape)

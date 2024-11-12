@@ -16,14 +16,14 @@ from tensorflow.keras.callbacks import EarlyStopping
 from src.mailer import send_email
 
 # Load data
-df = pd.read_csv("processed_train_data_activity.csv")
+df = pd.read_csv("processed_train_data_trial_2.csv")
 
 # Adjust data
 X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z, class_labels = matrix_fourier_adjust(df)
 
 # parameters
 input_shape = (256, 1) # shape of the input data
-num_classes = 6 # number of classes
+num_classes = 5 # number of classes
 
 input_acc_x, branch_acc_x = create_branch(input_shape)
 input_acc_y, branch_acc_y = create_branch(input_shape)
@@ -35,7 +35,7 @@ input_gyro_z, branch_gyro_z = create_branch(input_shape)
 # concatenate branches
 merged = Concatenate()([branch_acc_x, branch_acc_y, branch_acc_z, branch_gyro_x, branch_gyro_y, branch_gyro_z])
 
-best_hyperparameters = "./src/best_hyperparameters_activity.json"
+best_hyperparameters = "./src/best_hyperparameters_trial_2.json"
 
 with open(best_hyperparameters, 'r') as f:
     best_hyperparameters = json.load(f)
@@ -50,7 +50,7 @@ model = Model(inputs=[input_acc_x, input_acc_y, input_acc_z, input_gyro_x, input
 model.compile(optimizer=Adam(learning_rate=best_hyperparameters['learning_rate']), loss='categorical_crossentropy', metrics=['accuracy'])
 print("Model created")
 
-y = tf.keras.utils.to_categorical(class_labels, num_classes=6)
+y = tf.keras.utils.to_categorical(class_labels, num_classes=num_classes)
 
 # Split data train / val
 X_train_acc_x, X_val_acc_x, X_train_acc_y, X_val_acc_y, X_train_acc_z, X_val_acc_z, \
@@ -79,7 +79,7 @@ final_time = time.time()
 # time spent for training
 time_spent = final_time - initial_time
 
-with open("log_time_training_HAR_trial_1.txt", "w") as f:
+with open("log_time_training_HAR_trial_2.txt", "w") as f:
     f.write(str(time_spent))
 
 print("Training finished")
@@ -87,7 +87,7 @@ print("Time spent for training: ")
 print(final_time)
 
 # Save model
-model.save("HAR_trial_1.h5")
+model.save("HAR_trial_2.h5")
 
 # Send email
-send_email("training HAR trial 1 model")
+send_email("training HAR trial 2 model - master class")
