@@ -15,7 +15,8 @@ def matrix_fourier_adjust(df_fft, buffer_size=256, testing=False):
 
     if testing == False:
         class_labels = np.array([clean_string(entry) for entry in df_fft['class']]) 
+        return X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z, class_labels
     else:
-        class_labels = np.array([int(x[0]) for x in df_fft["class"]])
+        # class_labels = np.array([int(x[0]) for x in df_fft["class"]])
+        return X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z
 
-    return X_acc_x, X_acc_y, X_acc_z, X_gyro_x, X_gyro_y, X_gyro_z, class_labels
